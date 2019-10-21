@@ -1,0 +1,56 @@
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://fonts.googleapis.com/css?family=DM+Serif+Text|Yeon+Sung&display=swap" rel="stylesheet">
+  {% bootstrap_css %}
+  <style>
+    li {
+      font-family: 'DM Serif Text', serif;
+    }
+    div {
+      font-family: 'Yeon Sung', cursive;
+    }
+  </style>
+</head>
+<body>
+  <ul class="nav justify-content-end navbar-dark bg-dark mb-5">
+    <li class="nav-item">
+      <a class="nav-link active text-white" href="{% url 'board:index' %}">Home</a>
+    </li>
+    {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'accounts:logout' %}">Logout</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'board:create' %}">Write</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{user.username}}님 안녕하세요!</a>
+      </li>
+    {% else %}
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'accounts:signup' %}">Signup</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'accounts:login' %}">Login</a>
+      </li>
+    {% endif %}
+    <li>
+      <form action="{% url 'board:search' %}" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </li>
+  </ul>
+  <div class="container">
+    {% block body %}
+    {% endblock %}
+  </div>
+  {% bootstrap_javascript jquery='full' %}
+</body>
+</html>

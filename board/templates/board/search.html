@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+  <h1 class ="text-center">목록</h1>
+  {% for p in ps %}
+    {% if search in p.content or search in p.title or search in p.author %}
+      <div class="alert alert-secondary row" role="alert">
+          <a href="{% url 'board:detail' p.id %}" class="alert-link col-9 my-2">{{p.title}}</a>
+          <p class="text-right text-muted col-3 my-2">{{p.author}}-{{p.created_at}}</p>
+      </div>
+    {% else %}
+    {% endif %}
+  {% endfor %}
+{% endblock %}  

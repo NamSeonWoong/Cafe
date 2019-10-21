@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+  <h1 class ="text-center">목록</h1>
+  {% for p in ps %}
+    <div class="alert alert-secondary row" role="alert">
+        <a href="{% url 'board:detail' p.id %}" class="alert-link col-9 my-2">{{p.title}}</a>
+        <p class="text-right text-muted col-3 my-2">{{p.author}}-{{p.created_at}}</p>
+    </div>
+  {% endfor %}
+{% endblock %}  

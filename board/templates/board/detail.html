@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+  <div class="jumbotron jumbotron-fluid my-2">
+    <div class="container">
+      <h1 class="display-5">{{p.title}}</h1>
+      <p class="text-muted text-right">'{{p.author}}'님이 {{p.created_at}} 작성하신 글 입니다. </p>
+      <p class="text-muted text-right"> </p>
+      <hr class="my-4">
+      <p class="lead">{{p.content}}</p>
+    </div>
+    {% if p.author ==  request.user %}
+      <div class="d-flex justify-content-end">
+        <a class = "btn btn-outline-secondary mr-2" href="{% url 'board:update' p.id %}">수정</a>
+        <a class = "btn btn-outline-danger mr-3" href="{% url 'board:delete' p.id %}">삭제</a>
+      </div>
+    {% endif %}
+  </div>
+
+  
+  <form action="{% url 'board:create_c' p.id %}" method="post">
+    {% csrf_token %}
+    <div class = "row">
+      <div class = "col-11 my-2">
+        {% bootstrap_form cform layout='horizontal' %}
+      </div>
+      <input class ="btn btn-outline-primary float-right mt-2 mb-4 ml-4" type="submit" value="작성">
+    </div>
+  </form>
+
+  {% for c in p.c_set.all %}
+    <button type="button" class="btn btn-outline-secondary btn-block text-left">
+      
+      {{c.author}} : {{c.content}}
+      {% if c.author ==  request.user %}
+        <a class = "float-right btn btn-outline-dark btn-sm" href="{% url 'board:delete_c' p.id c.id %}">삭제</a>
+      {% endif %}
+    </button>
+  {% endfor %}
+{% endblock %}
