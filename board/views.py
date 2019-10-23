@@ -91,3 +91,26 @@ def delete_c(request, p_id, c_id):
         c.delete()
     return redirect('board:detail', p_id) 
 
+@login_required
+def like(request,id):
+    p = get_object_or_404(P,id=id)
+    user = request.user
+    if user in p.like_users.all():
+        p.like_users.remove(user)
+    else:
+        p.like_users.add(user)
+
+    return redirect('board:detail',id)
+
+@login_required
+def like_c(request, p_id, c_id):
+    c = get_object_or_404(C,id=c_id)
+    user = request.user
+    if user in c.like_users_c.all():
+        c.like_users_c.remove(user)
+    else:
+        c.like_users_c.add(user)
+
+    return redirect('board:detail', p_id)
+
+

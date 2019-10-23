@@ -8,6 +8,13 @@
       <p class="text-muted text-right"> </p>
       <hr class="my-4">
       <p class="lead">{{p.content}}</p>
+
+      {% if user in p.like_users.all %}
+        <a href="{% url 'board:like' p.id %}" class="btn btn-success">좋아요 취소</a>
+      {% else %}
+        <a href="{% url 'board:like' p.id %}" class="btn btn-success">좋아요!!</a>
+      {% endif %}
+      <p>추천수:({{p.like_users.all.count}})</p>
     </div>
     {% if p.author ==  request.user %}
       <div class="d-flex justify-content-end">
@@ -32,8 +39,16 @@
     <button type="button" class="btn btn-outline-secondary btn-block text-left">
       
       {{c.author}} : {{c.content}}
+
+
+      {% if user in c.like_users_c.all %}
+        <a href="{% url 'board:like_c' p.id c.id  %}" class="btn btn-warning " >댓글 좋아요 취소 </a>
+      {% else %}
+        <a href="{% url 'board:like_c' p.id c.id %}" class="btn btn-info ">이 댓글이 좋아요!! </a>
+      {% endif %}
+      <p class="inline">추천수: ({{c.like_users_c.all.count}})</p>
       {% if c.author ==  request.user %}
-        <a class = "float-right btn btn-outline-dark btn-sm" href="{% url 'board:delete_c' p.id c.id %}">삭제</a>
+        <a class = "float-right btn btn-outline-dark btn-sm float-right" href="{% url 'board:delete_c' p.id c.id %}">삭제</a>
       {% endif %}
     </button>
   {% endfor %}
